@@ -1,21 +1,28 @@
 # 👋 Cooperativa API
 
 🎓 **Proyecto académico:** Desarrollo de API REST en C# con ASP.NET Core 8  
-💻 **Objetivo:** Gestionar socios, préstamos y aportaciones de una cooperativa  
-🚀 **Características principales:** Autenticación con JWT, roles (Admin/Socio), validaciones y CRUD completo  
+💻 **Objetivo:** Gestionar socios, usuarios, profesiones, préstamos y aportaciones de manera segura y eficiente  
+🚀 **Características principales:** JWT para autenticación, roles (Admin/Socio), validaciones y CRUD completo  
 
 ---
 
 ## 📝 Descripción del proyecto
 
-Cooperativa API es una **API REST** que permite administrar las operaciones principales de una cooperativa de manera segura y eficiente:
+Cooperativa API es una **API REST** que permite administrar las operaciones principales de una cooperativa:
 
-- **Socios:** Registro, actualización y eliminación de socios, vinculados a usuarios para autenticación.  
-- **Préstamos:** Solicitud por socios, aprobación por Admin y consulta de estado.  
-- **Aportaciones:** Registro de aportaciones por socios y administración por Admin.  
-- **Seguridad:** Manejo de autenticación mediante JWT, roles y validaciones de datos.  
+- Al **crear un socio**, automáticamente se genera un **usuario** asociado.  
+- Con este usuario podemos:
+  - Solicitar **préstamos**  
+  - Consultar nuestras **aportaciones**  
+  - Ver nuestra **profesión**  
+- Los métodos **POST, PUT y DELETE** están protegidos mediante **token JWT**, que se valida en cada request:  
+  - Cada request debe incluir el **header** con el token  
+  - El token contiene información del usuario, incluyendo **Id y Rol**  
+  - El servidor verifica que el token sea válido, no haya expirado y contenga los claims requeridos (por ejemplo, rol Admin o Socio)  
 
-💡 Esta API demuestra conocimientos de **C#, ASP.NET Core, Entity Framework, JWT, y buenas prácticas en APIs REST**.
+> En resumen, ningún cliente puede modificar datos sin un JWT válido, y solo ciertos roles pueden ejecutar acciones específicas.  
+
+La API implementa las funcionalidades básicas necesarias y cumple con los requerimientos mínimos para gestionar socios, usuarios, profesiones, préstamos y aportaciones, con seguridad y manejo de roles. Sin embargo, aún puede mejorarse y ampliarse para ser más robusta y escalable.
 
 ---
 
@@ -31,6 +38,13 @@ Cooperativa API es una **API REST** que permite administrar las operaciones prin
 </p>
 
 ---
+🧪 Datos de prueba
+
+Usuario  | Rol   | Email           | Contraseña
+---------|-------|----------------|-----------
+Admin    | Admin | admin@coop.com  | Admin123
+Socio    | Socio | socio@coop.com  | Socio123
+
 
 ## 🚀 Instalación y ejecución
 
@@ -39,6 +53,3 @@ Cooperativa API es una **API REST** que permite administrar las operaciones prin
 ```bash
 git clone https://github.com/Jazmin-cmd/lenguajesvisuales-primerparcial.git
 cd CooperativaApi
-
-</body>
-</html>
