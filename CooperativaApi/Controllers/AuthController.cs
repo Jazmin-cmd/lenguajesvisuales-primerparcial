@@ -123,13 +123,13 @@ namespace CooperativaApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
+             
             if (await _db.Users.AnyAsync(u => u.Email == dto.Email))
                 return BadRequest(new { status = false, message = "Email ya registrado" });
 
             var user = new User
             {
-                Nombre = dto.NombreCompleto,
+                Nombre = dto.Nombre,
                 Email = dto.Email,
                 Rol = "Admin" // Forzar rol Admin
             };
@@ -140,6 +140,31 @@ namespace CooperativaApi.Controllers
 
             return Ok(new { status = true, userId = user.Id, email = user.Email });
         }
+        
+        [HttpPost("create-admin")]
+        public async Task<IActionResult> CreateAdmin([FromBody] CreateUserDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (await _db.Users.AnyAsync(u => u.Email == dto.Email))
+                return BadRequest(new { message = "Email ya registrado" });
+
+            var admin = new User
+            {
+                Nombre = dto.Nombre,
+                Email = dto.Email,
+                Rol = "Admin"
+            };
+
+            admin.PasswordHash = _hasher.HashPassword(admin, dto.Password);
+
+            _db.Users.Add(admin);
+            await _db.SaveChangesAsync();
+
+            return Ok(new { message = "Admin creado correctamente", adminId = admin.Id });
+        }
+
 
     }
 
